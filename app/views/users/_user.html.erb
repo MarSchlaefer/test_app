@@ -10,8 +10,13 @@
             <h5 class="card-title"><%= link_to user.username, user_path(user), class: "text-success" %></h5>
             <p class="card-text"><%= truncate(user.email, length: 100) %></p>
             <%= link_to "View", user_path(user), class: "btn btn-outline-success" %>
-            <% if logged_in? && user == current_user %>
-              <%= link_to "Edit", edit_user_path(user), class: "btn btn-outline-success" %>
+            <% if logged_in? %>
+              <% if user == current_user %>
+                <%= link_to "Edit", edit_user_path(user), class: "btn btn-outline-success" %>
+              <% end %>
+              <% if current_user.admin? %>
+                <%= button_to 'Delete', user_path(current_user), method: :delete, data: { turbolink: false }, class: "btn btn-outline-danger" %>
+              <% end %>
             <% end %>
           </div>
           <div class="card-footer text-muted">
